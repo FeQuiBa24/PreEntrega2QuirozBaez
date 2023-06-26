@@ -1,50 +1,53 @@
 import { useEffect, useState } from "react";
-import arrayProductos from "./productos.json"
+//import productos from "./productos.json"
+import ItemList from "./itemList";
+import { useParams } from "react-router-dom";
+import { getFirestore, collection, getDocs, where, query } from "firebase/firestore";
 
-const Cargando = ()=>{
+/* const Cargando = ()=>{
     return(
         <h3 className="text-center p-3">Cargando productos...</h3>
     )
-}
-
-const RenderProductos = ({productos}) =>{
-    return(
-        productos.map(item=>(
-            <div key={item.id} className="col-md-4">
-                <div className="card">
-                    <img src={item.imagen} className="card-img-top" alt="..."/>
-                    <div className="card-body">
-                        <h5 className="card-title">{item.nombre}</h5>
-                        <p className="card-text">{item.descripcion}</p>
-                        <h6 className="card-title">${item.precio}</h6>
-                        <a href="#" className="btn btn-primary">Comprar</a>
-                    </div>
-                </div>
-            </div>
-        ))
-    )
-}
+} */
 
 const ItemListContainer = ()=>{
-    const [productos, setProductos] = useState([]);
-    const [disponible, setDisponible] = useState(false);
+    const [items, setItems] = useState([]);
+    //const [disponible, setDisponible] = useState(false);
+    const {id} = useParams();
 
-    useEffect(()=>{
+    //.json
+    /* useEffect(()=>{
         const promesa = new Promise(resolve =>{
             setTimeout(() => {
-                resolve(arrayProductos);
-            }, 3000);
+                resolve(id ? productos.filter(e => e.categoria === id) : productos);
+            }, 500);
         })
 
         promesa.then(respuesta=>{
             setDisponible(true);
-            setProductos(respuesta);
+            setItems(respuesta);
         })
-    }, []);
+    }, [id]); */
+
+    //firebase
+    useEffect(() => {
+        const db = getFirestore();
+        const itemsCollection = collection(db, "items");
+        const q = id ? query(itemsCollection, where("categoria", "==", id)) : itemsCollection;
+        getDocs(q).then(resultado => {
+            if (resultado.size > 0) {
+                setItems(resultado.docs.map(producto => ({id:producto.id, ...producto.data()})));
+            } else {
+                console.error("Error! No se encontraron productos en la colección!");
+            }
+        });
+    }, [id]);
 
     return(
-        <div className="row">
-            {disponible ? <RenderProductos productos={productos} /> : <Cargando/>}
+        <div className="container my-5">
+            <div className="row">
+                <ItemList productos={items} />
+            </div>
         </div>
     )
 }

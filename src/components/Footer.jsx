@@ -2,6 +2,7 @@ import Twitter from "./images/twitter.svg"
 import Facebook from "./images/facebook.svg"
 import Instagram from "./images/instagram.svg"
 import Ubicacion from "./images/ubicacion.png"
+import { Link } from "react-router-dom"
 
 const Footer=()=>{
     return(
@@ -16,9 +17,9 @@ const Footer=()=>{
                     <img src={Ubicacion} className="img-fluid"/>
                 </div>
                 <div className="col-md-4 d-flex justify-content-around align-items-center">
-                    <a href="#"><img src={Twitter} width={40}/></a>
-                    <a href="#"><img src={Facebook} width={40}/></a>
-                    <a href="#"><img src={Instagram} width={40}/></a>
+                    <Link to={"#"}><img src={Twitter} width={40}/></Link>
+                    <Link to={"#"}><img src={Facebook} width={40}/></Link>
+                    <Link to={"#"}><img src={Instagram} width={40}/></Link>
                 </div>
             </div>
         </div>

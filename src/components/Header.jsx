@@ -1,6 +1,7 @@
-import CardWidget from "./CardWidget";
+import CartWidget from "./CartWidget";
 import NavBar from "./NavBar";
 import logo from "./images/logo.jpg"
+import { Link } from "react-router-dom";
 
 const Header=()=>{
     return(
@@ -9,7 +10,7 @@ const Header=()=>{
             <div className="col-md-6">
             </div>
             <div className="col-md-6 text-sm-end text-white">
-                <a href="#" className="text-decoration-none text-white">Sobre nosotros</a> | <a href="#" className="text-decoration-none text-white">Ayuda</a>
+                <Link to={"#"} className="text-decoration-none text-white">Sobre nosotros</Link> | <Link to={"#"} className="text-decoration-none text-white">Ayuda</Link>
             </div>
         </div>
         <div className="row bg-dark p-3 text-white">
@@ -20,7 +21,7 @@ const Header=()=>{
                 <NavBar />
             </div>
             <div className="col-md-2 text-end">
-                <CardWidget />
+                <CartWidget />
             </div>
         </div>
     </div>    
